@@ -1,13 +1,100 @@
-# macOS system files
-.DS_Store
+# User-specific files
+*.swp
+*.swo
+*.xcuserstate
+*.xcuserdata
+*.xcodeproj/project.xcworkspace/xcuserdata/
 
-# Xcode specific files
+# Build and Derived Data
 build/
 DerivedData/
-*.xcworkspace
-
-# Environment files
-.env
 
 # Logs
 *.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# macOS Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon files
+Icon?
+._*
+
+# Thumbnails
+Thumbs.db
+
+# Xcode iOS/OSX specific
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# CocoaPods
+Pods/
+*.lock
+*.xcworkspace
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+
+# HFS+ attributes
+*.DS_Store
+*.AppleDouble
+.LSOverride
+
+# Bundle files
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Symbolication
+*.bcsymbolmap
+
+# Code Signing
+*.mobileprovision
+*.provisionprofile
+
+# Firebase Crashlytics
+firebase-debug.log
+
+# Environment files
+.env
+.env.*
+
+# Xcode Scheme and Settings
+*.xcscheme
+xcshareddata/
+*.xccheckout
+*.moved-aside
+
+# Lock files
+*.lock
+
+# Swift Package Index
+.packages/
+
+# General exclusions
+!.gitkeep
