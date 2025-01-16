@@ -12,46 +12,71 @@ struct CatFactView: View {
     @StateObject var catFactsViewModel: CatFactsViewModel = CatFactsViewModel()
     
     var body: some View {
-        ZStack{
-            Color(.systemBackground)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    //download new fact and image
-                    self.catFactsViewModel.fetchCatFactAndImage()
-                }
-            
-            
-            ProgressView()
-                .opacity(self.catFactsViewModel.isLoading && self.catFactsViewModel.errorMessage == nil ? 1: 0)
-            
-            Text(self.catFactsViewModel.errorMessage ?? "")
-            
-            VStack {
-                
-                Spacer()
-                
-                Text("Cat Fact")
-                    .multilineTextAlignment(.center)
-                    .font(.title)
+        GeometryReader { geometry in
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.6), Color.blue.opacity(0.4)]),
+                                startPoint: .top,
+                                endPoint: .bottom)
+                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    Text("Cat Fact")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding()
                     
-                    if let image = self.catFactsViewModel.image {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 300, height: 300)
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            if let image = catFactsViewModel.image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxWidth: geometry.size.width * 0.8) // Scale for landscape
+                                    .cornerRadius(10)
+                                    .shadow(radius: 10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.white, lineWidth: 2)
+                                    )
+                                    .padding(.horizontal)
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(.gray)
+                                    .opacity(0.7)
+                                    .padding(.horizontal)
+                            }
+                            
+                            if let fact = catFactsViewModel.catFact?.data.first {
+                                Text(fact)
+                                    .font(.headline)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.black.opacity(0.5))
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+                                    .frame(maxWidth: geometry.size.width * 0.9)
+                            }
+                            
+                            Spacer(minLength: 20)
+                        }
+                        .padding(.top, 40)
+                        .frame(minHeight: geometry.size.height)
                     }
-                    
-                    Text(self.catFactsViewModel.catFact?.data.first ?? "")
-                        .multilineTextAlignment(.center)
-                        .padding(.all, 10)
-                    
-                    Spacer()
-                }.opacity(self.catFactsViewModel.isLoading && self.catFactsViewModel.errorMessage == nil ? 0: 1)
+                }
             }
-        }.onAppear{
-            //initial fact and image
+            .onTapGesture {
+                // Fetch new fact and image
+                withAnimation {
+                    self.catFactsViewModel.fetchCatFactAndImage()
+                }
+            }
+        }
+        .onAppear {
             self.catFactsViewModel.fetchCatFactAndImage()
         }
     }
