@@ -1,0 +1,13 @@
+# macOS system files
+.DS_Store
+
+# Xcode specific files
+build/
+DerivedData/
+*.xcworkspace
+
+# Environment files
+.env
+
+# Logs
+*.log
