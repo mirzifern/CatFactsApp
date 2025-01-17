@@ -28,7 +28,7 @@ struct CatFactView: View {
                     
                     ScrollView {
                         VStack(spacing: 20) {
-                            if catFactsViewModel.isLoading {
+                            if catFactsViewModel.isLoading && catFactsViewModel.errorMessage == nil {
                                 ProgressView("Loading")
                             } else {
                                 if let errorMessage = catFactsViewModel.errorMessage {
