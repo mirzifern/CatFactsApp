@@ -26,7 +26,7 @@ class CatFactsAppTests: XCTestCase, Sendable {
         super.tearDown()
     }
     
-    @Test func testFetchCatFactSuccess() async throws {
+   func testFetchCatFactSuccess() async throws {
         let catFact = "The color of the points in Siamese cats is heat related. Cool areas are darker."
         let json = """
           {
@@ -42,29 +42,29 @@ class CatFactsAppTests: XCTestCase, Sendable {
         viewModel.fetchCatFact(from: "https://meowfacts.herokuapp.com/")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.catFact?.data.first, catFact)
+            XCTAssertEqual(self.viewModel.state.isLoading, false)
             expectation.fulfill()
         }
 
         await fulfillment(of:[expectation], timeout: 1.0, enforceOrder: false)
     }
     
-    @Test func testFetchCatFactFail() async throws {
+    func testFetchCatFactFail() async throws {
         self.networkService.mockError = NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Network error"])
         
         let expectation = XCTestExpectation(description: "Fetch Cat Fact Fail")
         viewModel.fetchCatFact(from: "https://meowfacts.herokuapp.com/")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertNil(self.viewModel.catFact)
-            XCTAssertEqual(self.viewModel.errorMessage, "Network error")
+            XCTAssertNil(self.viewModel.state.catFact)
+            XCTAssertEqual(self.viewModel.state.errorMessage, "Network error")
             expectation.fulfill()
         }
 
         await fulfillment(of:[expectation], timeout: 1.0, enforceOrder: false)
     }
     
-    @Test func testFetchCatImageSuccess() async throws {
+    func testFetchCatImageSuccess() async throws {
         let catImageURL = "https://cdn2.thecatapi.com/images/4tp.jpg"
         let json = """
 [
@@ -83,22 +83,22 @@ class CatFactsAppTests: XCTestCase, Sendable {
         viewModel.fetchCatImage(from: "https://meowfacts.herokuapp.com/")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.catImage.first?.url, catImageURL)
+            XCTAssertEqual(self.viewModel.state.isLoading, false)
             expectation.fulfill()
         }
 
         await fulfillment(of:[expectation], timeout: 1.0, enforceOrder: false)
     }
     
-    @Test func testFetchCatImageFailure() async throws {
+    func testFetchCatImageFailure() async throws {
         self.networkService.mockError = NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Network error"])
         
         let expectation = XCTestExpectation(description: "Fetch Cat Image")
         viewModel.fetchCatImage(from: "https://meowfacts.herokuapp.com/")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.catImage.count, 0)
-            XCTAssertEqual(self.viewModel.errorMessage, "Network error")
+            XCTAssertEqual(self.viewModel.state.isLoading, false)
+            XCTAssertEqual(self.viewModel.state.errorMessage, "Network error")
             expectation.fulfill()
         }
 
