@@ -96,7 +96,7 @@ class CatFactsViewModel: ObservableObject {
                         if let catFact = self.catFact?.data.first {
                             self.send(intent: .FetchCatFactSuccess(catFact, downloadedImage))
                         } else {
-                            self.send(intent: .FetchCatFact)
+                            self.send(intent: .Error("Oops Try Again"))
                         }
                     } else {
                         self.send(intent: .Error("Failed to load image"))
